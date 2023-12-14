@@ -1,9 +1,25 @@
 from flask import jsonify, request
 from app_module import app 
 
-users = []
-categories = []
-expenses = []
+
+users = [
+        {'id': 1, 'name': 'John Doe'},
+        {'id': 2, 'name': 'Jane Smith'},
+       
+    ]
+
+    
+categories = [
+        {'id': 1, 'name': 'Food'},
+        {'id': 2, 'name': 'Utilities'},
+        
+    ]
+
+   
+expenses = [
+        {'id': 1, 'user_id': 1, 'category_id': 1, 'timestamp': '2023-01-01 12:00:00', 'amount': 20.0},
+        {'id': 2, 'user_id': 2, 'category_id': 1, 'timestamp': '2023-01-02 14:30:00', 'amount': 15.0},
+    ]
 
 
 @app.route('/')
