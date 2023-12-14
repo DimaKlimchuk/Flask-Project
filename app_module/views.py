@@ -50,4 +50,29 @@ def get_users():
     return jsonify(users)
 
 
+@app.route('/category', methods=['POST'])
+def create_category():
+    data = request.get_json()
+    category = {
+        'id': len(categories) + 1,
+        'name': data['name']
+    }
+    categories.append(category)
+    return jsonify(category), 201
+
+
+@app.route('/categories', methods=['GET'])
+def get_categories():
+    return jsonify(categories)
+
+
+@app.route('/category/<int:category_id>', methods=['DELETE'])
+def delete_category(category_id):
+    global categories
+    categories = [category for category in categories if category['id'] != category_id]
+    return jsonify({'message': 'Category deleted successfully'})
+
+
+
+
 
