@@ -73,6 +73,58 @@ def delete_category(category_id):
     return jsonify({'message': 'Category deleted successfully'})
 
 
+@app.route('/record', methods=['POST'])
+def create_expense():
+    data = request.get_json()
+    expense = {
+        'id': len(expenses) + 1,
+        'user_id': data['user_id'],
+        'category_id': data['category_id'],
+        'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        'amount': data['amount']
+    }
+    expenses.append(expense)
+    return jsonify(expense), 201
+
+
+@app.route('/record/<int:record_id>', methods=['GET'])
+def get_expense(record_id):
+    record = next((expense for expense in expenses if expense['id'] == record_id), None)
+    if record:
+        return jsonify(record)
+    else:
+        return jsonify({'error': 'Record not found'}), 404
+
+
+@app.route('/record/<int:record_id>', methods=['DELETE'])
+def delete_expense(record_id):
+    global expenses
+    expenses = [expense for expense in expenses if expense['id'] != record_id]
+    return jsonify({'message': 'Record deleted successfully'})
+
+
+@app.route('/record', methods=['GET'])
+def get_expenses():
+    user_id = request.args.get('user_id')
+    category_id = request.args.get('category_id')
+
+    if not user_id and not category_id:
+        return jsonify({'error': 'Please provide user_id and/or category_id as parameters'}), 400
+
+    filtered_expenses = expenses
+    if user_id:
+        filtered_expenses = [expense for expense in filtered_expenses if expense['user_id'] == int(user_id)]
+    if category_id:
+        filtered_expenses = [expense for expense in filtered_expenses if expense['category_id'] == int(category_id)]
+
+    return jsonify(filtered_expenses)
+
+
+
+
+
+
+
 
 
 
