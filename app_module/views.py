@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from datetime import datetime
 from app_module import app 
+from marshmallow import ValidationError
 from .schemas import UserSchema, CategorySchema, RecordSchema
 
 user_schema = UserSchema()
