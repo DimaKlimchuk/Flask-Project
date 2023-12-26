@@ -1,4 +1,7 @@
 from marshmallow import Schema, fields
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
 
 class UserSchema(Schema):
     id = fields.Int(dump_only=True)
@@ -14,3 +17,6 @@ class ExpenseSchema(Schema):
     category_id = fields.Int(required=True)
     timestamp = fields.DateTime(dump_only=True)
     amount = fields.Float(required=True)
+
+
+
