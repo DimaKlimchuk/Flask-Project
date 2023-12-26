@@ -1,6 +1,12 @@
 from flask import jsonify, request
 from datetime import datetime
 from app_module import app 
+from .schemas import UserSchema, CategorySchema, RecordSchema
+
+user_schema = UserSchema()
+category_schema = CategorySchema()
+record_schema = RecordSchema()
+
 
 
 users = [
@@ -36,7 +42,11 @@ def healthcheck():
 
 @app.route('/user', methods=['POST'])
 def create_user():
-    data = request.get_json()
+    try:
+        data = user_schema.load(request.get_json())
+    except ValidationError as err:
+        return jsonify({'error': err.messages}), 400
+
     user = {
         'id': len(users) + 1,
         'name': data['name'],
@@ -48,9 +58,9 @@ def create_user():
 
 @app.route('/user/<int:user_id>', methods=['GET'])
 def get_user(user_id):
-    user = next((user for user in users if user['id'] == user_id), None)
+    user = next((u for u in users if u['id'] == user_id), None)
     if user:
-        return jsonify(user)
+        return jsonify(user_schema.dump(user))
     else:
         return jsonify({'error': 'User not found'}), 404
 
@@ -59,7 +69,11 @@ def get_user(user_id):
 def update_balance(user_id):
     user = next((user for user in users if user['id'] == user_id), None)
     if user:
-        data = request.get_json()
+        try:
+            data = user_schema.load(request.get_json(), partial=('name',))
+        except ValidationError as err:
+            return jsonify({'error': err.messages}), 400
+
         amount = data.get('amount', 0.0)
         user['balance'] += amount
         return jsonify({'message': f'Balance updated successfully. New balance: {user["balance"]}'})
@@ -70,45 +84,61 @@ def update_balance(user_id):
 @app.route('/user/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     global users
-    users = [user for user in users if user['id'] != user_id]
-    return jsonify({'message': 'User deleted successfully'})
+    user = next((u for u in users if u['id'] == user_id), None)
+    if user:
+        users = [u for u in users if u['id'] != user_id]
+        return jsonify({'message': 'User deleted successfully'})
+    else:
+        return jsonify({'error': 'User not found'}), 404
 
 
 @app.route('/users', methods=['GET'])
 def get_users():
-    return jsonify(users)
+    return jsonify(user_schema.dump(users, many=True))
 
 
 @app.route('/category', methods=['POST'])
 def create_category():
-    data = request.get_json()
+    try:
+        data = category_schema.load(request.get_json())
+    except ValidationError as err:
+        return jsonify({'error': err.messages}), 400
+
     category = {
         'id': len(categories) + 1,
         'name': data['name']
     }
-    categories.append(category)
+    category.append(category)
     return jsonify(category), 201
 
 
 @app.route('/categories', methods=['GET'])
 def get_categories():
-    return jsonify(categories)
+    return jsonify(category_schema.dump(category, many=True))
 
 
 @app.route('/category/<int:category_id>', methods=['DELETE'])
 def delete_category(category_id):
     global categories
-    categories = [category for category in categories if category['id'] != category_id]
-    return jsonify({'message': 'Category deleted successfully'})
+    category = next((category for category in categories if category['id'] == category_id), None)
+    if category:
+        categories = [c for c in categories if c['id'] != category_id]
+        return jsonify({'message': 'Category deleted successfully'})
+    else:
+        return jsonify({'error': 'Category not found'}), 404
 
 
 @app.route('/record', methods=['POST'])
 def create_expense():
-    data = request.get_json()
+    try:
+        data = record_schema.load(request.get_json())
+    except ValidationError as err:
+        return jsonify({'error': err.messages}), 400
+
     user_id = data.get('user_id')
     amount = data.get('amount')
 
-    user = next((user for user in users if user['id'] == user_id), None)
+    user = next((u for u in users if u['id'] == user_id), None)
     if user:
         if user['balance'] >= amount:
             expense = {
@@ -119,7 +149,7 @@ def create_expense():
                 'amount': amount
             }
 
-            expenses.append(expense)
+            record.append(expense)
             user['balance'] -= amount
 
             return jsonify({'message': 'Expense recorded successfully', 'user_balance': user['balance']}), 201
@@ -132,9 +162,9 @@ def create_expense():
 
 @app.route('/record/<int:record_id>', methods=['GET'])
 def get_expense(record_id):
-    record = next((expense for expense in expenses if expense['id'] == record_id), None)
-    if record:
-        return jsonify(record)
+    one_record = next((e for e in record if e['id'] == record_id), None)
+    if one_record:
+        return jsonify(one_record)
     else:
         return jsonify({'error': 'Record not found'}), 404
 
@@ -156,9 +186,19 @@ def get_expenses():
 
     filtered_expenses = expenses
     if user_id:
-        filtered_expenses = [expense for expense in filtered_expenses if expense['user_id'] == int(user_id)]
+        try:
+            user_id = int(user_id)
+        except ValueError:
+            return jsonify({'error': 'Invalid user_id parameter'}), 400
+
+        filtered_expenses = [e for e in filtered_expenses if e['user_id'] == user_id]
     if category_id:
-        filtered_expenses = [expense for expense in filtered_expenses if expense['category_id'] == int(category_id)]
+        try:
+            category_id = int(category_id)
+        except ValueError:
+            return jsonify({'error': 'Invalid category_id parameter'}), 400
+
+        filtered_expenses = [e for e in filtered_expenses if e['category_id'] == category_id]
 
     return jsonify(filtered_expenses)
 
