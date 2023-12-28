@@ -6,3 +6,11 @@ My own Flask backend project
 2. Download Docker
 3. In project folder build the Docker Image: `docker-compose build`
 4. Run the Docker Container: `docker-compose up`
+
+## For Lab-3 
+My Number in list of group: 12
+12 % 3 = 0 - my variant
+
+
+
+

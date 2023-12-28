@@ -11,25 +11,6 @@ record_schema = RecordSchema()
 
 
 
-users = [
-    {'id': 1, 'name': 'John Doe', 'balance': 0.0},
-    {'id': 2, 'name': 'Jane Smith', 'balance': 0.0},
-]
-
-    
-category = [
-        {'id': 1, 'name': 'Food'},
-        {'id': 2, 'name': 'Utilities'},
-        
-    ]
-
-   
-record = [
-        {'id': 1, 'user_id': 1, 'category_id': 1, 'timestamp': '2023-01-01 12:00:00', 'amount': 20.0},
-        {'id': 2, 'user_id': 2, 'category_id': 1, 'timestamp': '2023-01-02 14:30:00', 'amount': 15.0},
-    ]
-
-
 @app.route('/')
 def home():
     return 'Hello, this is the home page!'
