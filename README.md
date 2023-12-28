@@ -12,7 +12,7 @@ My Number in list of group: 12
 
 12 % 3 = 0 - my variant 
 
-Test of my app in postman for local settup database 
+Test of my app in postman for local settup database. For database I used MongoDB. 
 
 ![image](https://github.com/DimaKlimchuk/Flask-Project/assets/62726645/08a1ef6c-ebf9-45db-be39-4c635a0f68aa) 
 
