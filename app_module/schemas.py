@@ -15,8 +15,8 @@ class CategorySchema(Schema):
 
 class RecordSchema(Schema):
     id = fields.Int(dump_only=True)
-    user_id = fields.Int(required=True)
-    category_id = fields.Int(required=True)
+    user_id = fields.Str(required=True)
+    category_id = fields.Str(required=True)
     timestamp = fields.DateTime(dump_only=True)
     amount = fields.Float(required=True)
 

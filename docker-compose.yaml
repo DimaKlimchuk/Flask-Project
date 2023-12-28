@@ -10,5 +10,11 @@ services:
       FLASK_APP: "app_module"
     ports:
       - "5000:5000"
+  mongo:
+    build:
+      context: .
+      dockerfile: Dockerfile.mongo
+    ports:
+      - "27017:27017"
 
 
