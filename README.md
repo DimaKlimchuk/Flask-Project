@@ -8,13 +8,13 @@ My own Flask backend project
 4. Run the Docker Container: `docker-compose up`
 
 ## For Lab-3 
-My Number in list of group: 12
+My Number of group: 12
 
 12 % 3 = 0 - my variant 
 
 Test of my app in postman for local settup database. For database I used MongoDB. 
 
-![image](https://github.com/DimaKlimchuk/Flask-Project/assets/62726645/08a1ef6c-ebf9-45db-be39-4c635a0f68aa) 
+<img src="https://github.com/DimaKlimchuk/Flask-Project/assets/62726645/08a1ef6c-ebf9-45db-be39-4c635a0f68aa"/> 
 
 ![image](https://github.com/DimaKlimchuk/Flask-Project/assets/62726645/1ddfccce-ae7a-4bbd-8a2e-3e4eb1bd0747) 
 
