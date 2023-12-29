@@ -14,7 +14,7 @@ My Number of group: 12
 
 Test of my app in postman for local settup database. For database I used MongoDB. 
 
-![image](https://github.com/DimaKlimchuk/Flask-Project/assets/62726645/08a1ef6c-ebf9-45db-be39-4c635a0f68aa) 
+![image](https://github.com/DimaKlimchuk/Flask-Project/images/Screenshot from 2023-12-29 02-36-48.png) 
 
 ![image](https://github.com/DimaKlimchuk/Flask-Project/assets/62726645/1ddfccce-ae7a-4bbd-8a2e-3e4eb1bd0747) 
 
