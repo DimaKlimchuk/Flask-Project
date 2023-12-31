@@ -8,14 +8,14 @@ services:
     environment:
       - PORT=5000
       - FLASK_APP=app_module
-      - DATABASE_URL= postgres://my_db_4ign_user:yFCOufRWPj4vzVmaqJnteyQKBlj5N3Ls@dpg-cm8rhfed3nmc73cjo1r0-a/my_db_4ign
+      - DATABASE_URL= postgresql://my_db_4ign_user:yFCOufRWPj4vzVmaqJnteyQKBlj5N3Ls@dpg-cm8rhfed3nmc73cjo1r0-a/my_db_4ign
     ports:
       - "5000:8080"
 
   db:
     image: postgres:latest
     environment: 
-      SQLALCHEMY_DATABASE_URI: postgres://my_db_4ign_user:yFCOufRWPj4vzVmaqJnteyQKBlj5N3Ls@dpg-cm8rhfed3nmc73cjo1r0-a/my_db_4ign
+      SQLALCHEMY_DATABASE_URI: postgresql://my_db_4ign_user:yFCOufRWPj4vzVmaqJnteyQKBlj5N3Ls@dpg-cm8rhfed3nmc73cjo1r0-a/my_db_4ign
       POSTGRES_DB: my_db_4ign
       POSTGRES_USER: my_db_4ign_use
       POSTGRES_PASSWORD: yFCOufRWPj4vzVmaqJnteyQKBlj5N3Ls@dpg-cm8rhfed3nmc73cjo1r0-a
