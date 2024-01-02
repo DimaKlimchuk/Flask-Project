@@ -5,6 +5,9 @@ from marshmallow import ValidationError
 from .schema import UserSchema, CategorySchema, ExpenseSchema
 from .models import User, Category, Expense
 from .models import db
+from passlib.hash import pbkdf2_sha256
+from flask_jwt_extended import create_access_token
+
 
 
 user_schema = UserSchema()
@@ -23,18 +26,23 @@ def healthcheck():
     return jsonify({"status": status})
 
 
-
-@app.route('/user', methods=['POST'])
-def create_user():
+@app.route('/register', methods=['POST'])
+def register_user():
     try:
         data = request.get_json()
 
-      
+       
+        existing_user = User.query.filter_by(name=data['name']).first()
+        if existing_user:
+            return jsonify({'error': 'User with this name already exists'}), 400
+
+
         new_user = User(
             name=data['name'],
+            password=pbkdf2_sha256.hash(data['password']),
             balance=0.0
         )
-        
+
         db.session.add(new_user)
         db.session.commit()
 
@@ -47,6 +55,27 @@ def create_user():
     except Exception as e:
         return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
 
+
+@app.route('/login', methods=['POST'])
+def login_user():
+    try:
+        data = request.get_json()
+
+        
+        user = User.query.filter_by(name=data['name']).first()
+
+        
+        if user and pbkdf2_sha256.verify(user_data["password"], user.password):
+            access_token = create_access_token(identity=user.id)
+            return jsonify(access_token=access_token), 200
+        else:
+            return jsonify({'error': 'Invalid username or password'}), 401
+
+    except ValidationError as e:
+        return jsonify({'error': f'Validation error: {e.messages}'}), 400
+
+    except Exception as e:
+        return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
 
 @app.route('/user/<int:user_id>', methods=['GET'])
 def get_user(user_id):
@@ -100,6 +129,7 @@ def get_users():
 
 
 @app.route('/category', methods=['POST'])
+@jwt_required()
 def create_category():
     try:
         data = request.get_json()
@@ -151,6 +181,7 @@ def delete_category(category_id):
 
 
 @app.route('/record', methods=['POST'])
+@jwt_required()
 def create_expense():
     try:
         data = request.get_json()
@@ -246,6 +277,7 @@ def delete_expense(record_id):
 
 
 @app.route('/income/<int:user_id>', methods=['POST'])
+@jwt_required()
 def add_income(user_id):
     try:
         data = request.get_json()
