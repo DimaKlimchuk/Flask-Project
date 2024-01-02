@@ -6,7 +6,7 @@ from .schema import UserSchema, CategorySchema, ExpenseSchema
 from .models import User, Category, Expense
 from .models import db
 from passlib.hash import pbkdf2_sha256
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 
 
 
