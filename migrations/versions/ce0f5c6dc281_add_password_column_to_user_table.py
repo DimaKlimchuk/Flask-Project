@@ -42,7 +42,7 @@ def downgrade():
     op.create_table('user',
     sa.Column('id', sa.INTEGER(), autoincrement=True, nullable=False),
     sa.Column('name', sa.VARCHAR(length=255), autoincrement=False, nullable=False),
-    sa.Column('password', sa.VARCHAR(), autoincrement=False, nullable=False),
+    sa.Column('password', sa.VARCHAR(length=255), autoincrement=False, nullable=False),
     sa.Column('balance', postgresql.DOUBLE_PRECISION(precision=53), autoincrement=False, nullable=True),
     sa.PrimaryKeyConstraint('id', name='user_pkey')
     )
