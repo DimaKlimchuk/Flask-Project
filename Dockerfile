@@ -15,9 +15,14 @@ COPY . /app
 
 ENV FLASK_APP=app_module
 
-
+RUN flask db migrate -m "Initial migration"
+RUN flask db upgrade
 
 CMD flask run -h 0.0.0.0 -p $PORT
 
-RUN flask db migrate -m "Initial migration"
-RUN flask db upgrade
+
+
+
+
+
+
