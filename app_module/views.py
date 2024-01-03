@@ -65,7 +65,7 @@ def login_user():
         user = User.query.filter_by(name=data['name']).first()
 
         
-        if user and pbkdf2_sha256.verify(user_data["password"], user.password):
+        if user and pbkdf2_sha256.verify(data["password"], user.password):
             access_token = create_access_token(identity=user.id)
             return jsonify(access_token=access_token), 200
         else:
@@ -121,7 +121,7 @@ def delete_user(user_id):
 def get_users():
     try:
         users = User.query.all()
-        users_info = [{'id': user.id, 'name': user.name, 'balance': user.balance} for user in users]
+        users_info = [{'id': user.id, 'name': user.name, 'password': user.password, 'balance': user.balance} for user in users]
         return jsonify(users_info)
 
     except Exception as e:

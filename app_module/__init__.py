@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "postgresql://my_db_4ign_user:yFCOufRWPj4vzVmaqJnteyQKBlj5N3Ls@dpg-cm8rhfed3nmc73cjo1r0-a/my_db_4ign")
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
-
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:test-pwd@db/my_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["JWT_SECRET_KEY"] = '336994360382009747173282000561199201483'
 
