@@ -15,9 +15,9 @@ services:
   db:
     image: postgres:latest
     environment: 
-      SQLALCHEMY_DATABASE_URI: postgresql://my_db_4ign_user:yFCOufRWPj4vzVmaqJnteyQKBlj5N3Ls@dpg-cm8rhfed3nmc73cjo1r0-a/my_db_4ign
-      POSTGRES_DB: my_db_4ign
-      POSTGRES_USER: my_db_4ign_use
-      POSTGRES_PASSWORD: yFCOufRWPj4vzVmaqJnteyQKBlj5N3Ls
+      SQLALCHEMY_DATABASE_URI: postgresql://my_db_vnqh_user:uJkp3gL7TeWmhcCEE8lGccKiBqenBtqI@dpg-cmac50v109ks73fcqsog-a/my_db_vnqh
+      POSTGRES_DB: my_db_vnqh
+      POSTGRES_USER: my_db_vnqh_user
+      POSTGRES_PASSWORD: uJkp3gL7TeWmhcCEE8lGccKiBqenBtqI
     ports:
       - "5433:5432"

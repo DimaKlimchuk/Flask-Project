@@ -8,7 +8,7 @@ import os
 app = Flask(__name__)
 
 
-SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "postgresql://my_db_4ign_user:yFCOufRWPj4vzVmaqJnteyQKBlj5N3Ls@dpg-cm8rhfed3nmc73cjo1r0-a/my_db_4ign")
+SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "postgresql://my_db_vnqh_user:uJkp3gL7TeWmhcCEE8lGccKiBqenBtqI@dpg-cmac50v109ks73fcqsog-a/my_db_vnqh")
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:test-pwd@db/my_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -16,7 +16,11 @@ app.config["JWT_SECRET_KEY"] = '336994360382009747173282000561199201483'
 
 db = SQLAlchemy(app)
 
+with app.app_context():
+    db.create_all()
+
 migrate = Migrate(app, db, command='migrate')
+
 
 jwt = JWTManager(app)
 
@@ -53,7 +57,6 @@ def missing_token_callback(error):
 import app_module.models  
 import app_module.views
 
-with app.app_context():
-    db.create_all()
+
 
   
